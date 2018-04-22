@@ -31,7 +31,11 @@ public class BusinessLayer{
 
    
    }
-   
+	
+   /*
+   * Get a patient with the id
+   * @ return response in XML format
+   */
    public String getPatient(String patientID) throws XMLStreamException{
    
         String condition = "id='" + patientID + "'";
@@ -86,7 +90,12 @@ public class BusinessLayer{
 
    
    }
-   
+	
+   /*
+    * Create patient XML string 
+    * 
+    * @return string of patients in XML format
+    */
    public String patientXMLString(List<Object> objs) throws XMLStreamException{
    
        String xmlString ="";
@@ -128,6 +137,11 @@ public class BusinessLayer{
    
    }
    
+  /*
+   * Get the physician with a id and return with a string in XML format
+   *
+   * @ String
+   */
    public String getPhysician(String physicianID) throws XMLStreamException{
    
         String condition = "id='" + physicianID + "'";
@@ -147,6 +161,12 @@ public class BusinessLayer{
 
    }
    
+   /*
+   * Create string of physician(s) in XML format 
+   *
+   *
+   * @return string in XML format
+   */
    public String physicianXMLString(List<Object> objs) throws XMLStreamException{
    
        String xmlString ="";
@@ -218,13 +238,17 @@ public class BusinessLayer{
    
    }
    
+   /*
+   * Create physician element in XML format
+   * @return void 
+   */
    private void createPhysicianElement( XMLStreamWriter writer, Physician physician ) throws XMLStreamException {
       
       	         
 		writer.writeStartElement("physician");
 		writer.writeAttribute("id", physician.getId() );
 		
-      writer.writeStartElement("name");
+                writer.writeStartElement("name");
 		writer.writeCharacters( physician.getName() );
 		writer.writeEndElement();
       
@@ -233,7 +257,10 @@ public class BusinessLayer{
 
 
 
-   
+   /*
+   * Get the appointment with id
+   * @return string of an appointment in XML format
+   */
    public String getAppointment(String apptID) throws XMLStreamException{
         
         String condition = "id='" + apptID + "'";
@@ -257,7 +284,11 @@ public class BusinessLayer{
    }
    
    
-   
+   /*
+   * Create a string of appointment(s) in XML format 
+   *
+   * @return string 
+   */
    public String appointmentXMLString(List<Object> objs) throws XMLStreamException{
    
        String xmlString ="";
@@ -306,7 +337,9 @@ public class BusinessLayer{
    }
    
      
-   
+   /*
+   * Create lab tests XML with XMLStreamWriter
+   */
    private void createAllLabTestElement(XMLStreamWriter writer, List<AppointmentLabTest> labTestList ) throws XMLStreamException {
       
       writer.writeStartElement("allLabTests");
@@ -323,6 +356,10 @@ public class BusinessLayer{
    
    }
    
+   /*
+   * Create lab test element with XMLStreamWriter
+   *
+   */
    private void createEachLabTestElement(XMLStreamWriter writer, AppointmentLabTest labTest ) throws XMLStreamException {
    
        writer.writeEmptyElement("appointmentLabTest"); 
@@ -339,11 +376,13 @@ public class BusinessLayer{
      
 
    
-   
+   /*
+   * Create appointment element with XMLStreamWriter
+   */
    private void createAppointmentElement(XMLStreamWriter writer, Appointment appointment) throws XMLStreamException {
       
       	         
-		 writer.writeStartElement("appointment"); 
+       writer.writeStartElement("appointment"); 
        
       
        String date_format = dateTransform( appointment.getApptdate() );
@@ -355,7 +394,9 @@ public class BusinessLayer{
    
    }
   
-     
+   /*
+   * Create Patient Service Center(PSC) element with XMLStreamWriter
+   */
    private void createPSCElement(XMLStreamWriter writer, PSC psc) throws XMLStreamException {
       
       	         
@@ -374,7 +415,9 @@ public class BusinessLayer{
    
    }
 
-   
+   /*
+   * Create phlebotomist element with XMLStreamWriter
+   */
    private void createPhlebotoElement(XMLStreamWriter writer, Phlebotomist phlebotomist) throws XMLStreamException {
       
       	         
@@ -393,7 +436,9 @@ public class BusinessLayer{
    
    }
    
-   
+   /*
+   * Create Patient element with XMLStreamWriter
+   */
    private void createPatientElement(XMLStreamWriter writer, Patient patient) throws XMLStreamException {
 
 			         
@@ -423,6 +468,9 @@ public class BusinessLayer{
  		
 	}
    
+   /*
+    * Transform date to string
+    */
    private String dateTransform(Date date){
    
       SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -449,7 +497,10 @@ public class BusinessLayer{
        }
    
    }
-   
+    /*
+    * Parse XML to retrieve patient information
+    * @ return patient id
+    */
     public String dom_patient( String xml ){
     
       String new_patient_id = "";
@@ -522,7 +573,10 @@ public class BusinessLayer{
        return new_patient_id;
     }
    
-   
+    /*
+    * Parse XML to retrieve appointment information
+    * @return appointment id
+    */
     public String dom_getNodeValue( String xml ){
     
        String new_appt_id = "";
@@ -550,35 +604,29 @@ public class BusinessLayer{
                       System.out.println("time " + time );
 
 
-                      /////////////////////////////
-                      ////check date//////////////
-                      ////////////////////////////
+                     
                       final_validate_date_time(date,time);
                                                  
-                            String patientId = element.getElementsByTagName("patientId").item(0).getTextContent();
-                            String physicianId = element.getElementsByTagName("physicianId").item(0).getTextContent();                                                
-                            String pscId = element.getElementsByTagName("pscId").item(0).getTextContent();
-                            String phlebotomistId = element.getElementsByTagName("phlebotomistId").item(0).getTextContent(); 
-                            
-                            System.out.println("patientId " + patientId );
-                            System.out.println("physicianId " + physicianId );
-                            
-                            ////////////////////////////////////////////////////////////////
-                            check_duplicate_conflict(time, date, patientId, phlebotomistId );
+                      String patientId = element.getElementsByTagName("patientId").item(0).getTextContent();
+                      String physicianId = element.getElementsByTagName("physicianId").item(0).getTextContent();                                                
+                      String pscId = element.getElementsByTagName("pscId").item(0).getTextContent();
+                      String phlebotomistId = element.getElementsByTagName("phlebotomistId").item(0).getTextContent(); 
+                                                        
+                      check_duplicate_conflict(time, date, patientId, phlebotomistId );
 
                             
-                            // check to see if the object exists in the system 
-                            ArrayList<Object> objs = findAllObjects_by_id( patientId, physicianId, pscId, phlebotomistId );
-                            System.out.println("find all objects by id  " + objs.size() );
-                            NodeList test_List = doc.getElementsByTagName( "test" );
+                      // check to see if the object exists in the system 
+                      ArrayList<Object> objs = findAllObjects_by_id( patientId, physicianId, pscId, phlebotomistId );
+                      System.out.println("find all objects by id  " + objs.size() );
+                      NodeList test_List = doc.getElementsByTagName( "test" );
                             
-                            //find the next appt id
-                            new_appt_id = findMaxID("Appointment");
+                      //find the next appt id
+                      new_appt_id = findMaxID("Appointment");
                             
-                            // test array 
-                            List<AppointmentLabTest> tests = new ArrayList<AppointmentLabTest>();
+                      // test array 
+                      List<AppointmentLabTest> tests = new ArrayList<AppointmentLabTest>();
                             
-                            if( test_List.getLength() > 0 ){
+                      if( test_List.getLength() > 0 ){
                                
                                for(int i = 0; i < test_List.getLength(); i++){
                                 
@@ -620,10 +668,10 @@ public class BusinessLayer{
                                 
                                 
                                 boolean good = dbSingleton.db.addData(newAppt);
-                                System.out.println("Add Appointment:SUCCESS OR NOT -----------------" + good );
+                                
   
                          }else{
-                              System.out.println("Add Appointment:SUCCESS OR NOT-------------unsuccess");
+                              
                          }// if no error     
                                                                   
                    }  //if    
@@ -662,7 +710,11 @@ public class BusinessLayer{
     }
     
         
-    
+    /*
+    * Add a new appointment 
+    * @param appointment in XML format
+    * @return appointment in XML format
+    */
     public String addAppointment(String xml) throws XMLStreamException{
     
        String errorMessage = "";
@@ -689,13 +741,15 @@ public class BusinessLayer{
             errorMessage +=  "</AppointmentList>";
        }
        error_list = new ArrayList<String>();
-        //System.out.println( Arrays.toString(error_list.toArray()) );     
-      
+       
                                
-        return errorMessage; 
+       return errorMessage; 
     }//end method
     
     
+    /*
+    * Check duplicate appointment
+    */
     public void check_duplicate_conflict(String time, String date, String patientID, String phlebid ){
  
       
@@ -720,14 +774,16 @@ public class BusinessLayer{
     }
 
     
-    //private boolean timeConflict(String pscId,String phlebotomistId, String date, String appttime ){
+     /*
+     * Check availability of the time of a phlebotomist
+     */
      public void timeConflict(String time, String date, String phlebid ){
  
       
-         // phleb has appt at the date and time  
+         // check if phleb has appointment at the date and time  
          String condition = "appttime='" + java.sql.Time.valueOf(time + ":00") + "'" ;
-                condition +=  " AND apptdate='" + java.sql.Date.valueOf(date) + "'";  
-                condition += " AND phlebid='" + phlebid + "'";
+         condition +=  " AND apptdate='" + java.sql.Date.valueOf(date) + "'";  
+         condition += " AND phlebid='" + phlebid + "'";
                 
          Object obj = findObject( "Appointment", condition ); 
                         
@@ -742,7 +798,10 @@ public class BusinessLayer{
     }
     
     
-    
+    /*
+    * Find patient, physician, PSC, and phlebotomist by their id 
+    * @return Patient, Physician, PSC, and Phlebotomist objects
+    */
     private ArrayList<Object> findAllObjects_by_id(String patientID, String physicianID, String pscID, String phlebotomistID){
       
           ArrayList<Object> objs_list = new ArrayList<Object>();
@@ -788,6 +847,7 @@ public class BusinessLayer{
     
     
     }
+	
     /*
     *
     * validate date matching valid yyyy-mm-dd
@@ -807,11 +867,12 @@ public class BusinessLayer{
                   
     
     }
+	
     /*
     * Check if the appointment date is later than the current date
     * and if the appointment date is not beyond one year 
     *
-    *
+    * @return void 
     */
     private void check_valid_date( String appointDate, String currentDate ){
     
@@ -1024,16 +1085,16 @@ public class BusinessLayer{
     
     }
     
-    //find appointment on the day and check its previous and after appt if any 
+    /*
+     * Check appointments of a day of a phlebotomist and check time conflict 
+     */
     public void final_check_time_conflict( String date, String phlebid, String apptTime,String appt_pscID ){
             
           if( error_list.size() == 0){  
           
                // find all the appointments on the day          
                List<Object> objs = find_appointments_on_the_day(date,phlebid);
-               
-               System.out.println("final check time conflict" + objs.size() );
-               
+                              
                if( objs.size() > 0 ){
                
                   find_Previous_after_Appoint( objs, apptTime+":00", appt_pscID );
@@ -1060,7 +1121,10 @@ public class BusinessLayer{
     }
       
       
-      // find the previous appointment and find the after one
+      /*
+       * Check if the desired appointment time has the time conflict 
+       * with the previous/next appointment  
+       */
       public void find_Previous_after_Appoint( List<Object> appointments, String apptTime,String appt_pscID ){
             
             //appointment time
@@ -1139,15 +1203,10 @@ public class BusinessLayer{
              
       
       }
-      
-       
-
-
-   
-   
+     
      
    /* 
-   * create xml string for testing purpose
+   * Create XML string for testing purpose
    *
    *@return XML string 
    */
@@ -1173,36 +1232,37 @@ public class BusinessLayer{
 		 writer.writeCharacters( time );
 		 writer.writeEndElement();
        
-       //210
+       //Patient element
        writer.writeStartElement("patientId");
-		 writer.writeCharacters( patientID );
-		 writer.writeEndElement();
+       writer.writeCharacters( patientID );
+       writer.writeEndElement();
        
-       //10
+       //Physician element
        writer.writeStartElement("physicianId");
-		 writer.writeCharacters( "10" );
-		 writer.writeEndElement();
+       writer.writeCharacters( "10" );
+       writer.writeEndElement();
        
-       //500
+       //PSC element
        writer.writeStartElement("pscId");
-		 writer.writeCharacters( pscID );
-		 writer.writeEndElement();
+       writer.writeCharacters( pscID );
+       writer.writeEndElement();
        
-       //100
+       //Phlebotomist element
        writer.writeStartElement("phlebotomistId");
-		 writer.writeCharacters( phlemID );
-		 writer.writeEndElement();
+       writer.writeCharacters( phlemID );
+       writer.writeEndElement();
        
+       // Lab test element	   
        writer.writeStartElement("labTests");
        
-		 //86900
+
        writer.writeEmptyElement("test");
-		 writer.writeAttribute("id", "86900" );
+       writer.writeAttribute("id", "86900" );
        writer.writeAttribute("dxcode", "292.9" );
        
-       //86609
+       // Lab test element
        writer.writeEmptyElement("test");
-		 writer.writeAttribute("id", "86609" );
+       writer.writeAttribute("id", "86609" );
        writer.writeAttribute("dxcode", "307.3" );
  
        writer.writeEndElement();//end labTests
@@ -1260,6 +1320,10 @@ public class BusinessLayer{
    
    }
    
+   /*
+    * Cancel appointment 
+    * @return response in string 
+    */
    public String cancelAppointment( String appt_id ){
       
          String condition = "appointmentLabTestPK.apptid='" + appt_id + "'";
