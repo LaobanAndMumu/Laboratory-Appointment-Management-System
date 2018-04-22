@@ -400,17 +400,17 @@ public class BusinessLayer{
    private void createPSCElement(XMLStreamWriter writer, PSC psc) throws XMLStreamException {
       
       	         
-		writer.writeStartElement("psc");
-		writer.writeAttribute("id", psc.getId() );
+	writer.writeStartElement("psc");
+	writer.writeAttribute("id", psc.getId() );
 		
-      writer.writeStartElement("name");
-		writer.writeCharacters( psc.getName() );
-		writer.writeEndElement();
+        writer.writeStartElement("name");
+	writer.writeCharacters( psc.getName() );
+	writer.writeEndElement();
       
       
 		      
-      // end patient 
-      writer.writeEndElement();
+       // end patient 
+       writer.writeEndElement();
 
    
    }
@@ -421,17 +421,17 @@ public class BusinessLayer{
    private void createPhlebotoElement(XMLStreamWriter writer, Phlebotomist phlebotomist) throws XMLStreamException {
       
       	         
-		writer.writeStartElement("phlebotomist");
-		writer.writeAttribute("id", phlebotomist.getId() );
+	writer.writeStartElement("phlebotomist");
+	writer.writeAttribute("id", phlebotomist.getId() );
 		
-      writer.writeStartElement("name");
-		writer.writeCharacters( phlebotomist.getName() );
-		writer.writeEndElement();
+        writer.writeStartElement("name");
+	writer.writeCharacters( phlebotomist.getName() );
+	writer.writeEndElement();
       
       
 		      
-      // end patient 
-      writer.writeEndElement();
+        // end patient 
+        writer.writeEndElement();
 
    
    }
@@ -442,29 +442,29 @@ public class BusinessLayer{
    private void createPatientElement(XMLStreamWriter writer, Patient patient) throws XMLStreamException {
 
 			         
-		writer.writeStartElement("patient");
-		writer.writeAttribute("id", patient.getId() );
+	writer.writeStartElement("patient");
+	writer.writeAttribute("id", patient.getId() );
 		
-      writer.writeStartElement("name");
-		writer.writeCharacters( patient.getName() );
-		writer.writeEndElement();
+        writer.writeStartElement("name");
+	writer.writeCharacters( patient.getName() );
+	writer.writeEndElement();
       
       
-		writer.writeStartElement("address");
-		writer.writeCharacters( patient.getAddress()  );
-		writer.writeEndElement();
+	writer.writeStartElement("address");
+	writer.writeCharacters( patient.getAddress()  );
+	writer.writeEndElement();
       
-      writer.writeStartElement("insurance");
-      String insurance = "" + patient.getInsurance();
-		writer.writeCharacters( insurance );
-		writer.writeEndElement();
+        writer.writeStartElement("insurance");
+        String insurance = "" + patient.getInsurance();
+	writer.writeCharacters( insurance );
+	writer.writeEndElement();
       
-      writer.writeStartElement("dob");
-		writer.writeCharacters( dateTransform(patient.getDateofbirth()));
-		writer.writeEndElement();
+        writer.writeStartElement("dob");
+	writer.writeCharacters( dateTransform(patient.getDateofbirth()));
+	writer.writeEndElement();
       
-      // end patient 
-      writer.writeEndElement();
+        // end patient 
+        writer.writeEndElement();
  		
 	}
    
@@ -512,7 +512,7 @@ public class BusinessLayer{
           Document doc = dBuilder.parse(new InputSource(new StringReader(xml)) ); 
           doc.getDocumentElement().normalize();
           
-          // 
+          
           NodeList nList = doc.getElementsByTagName( "patient" );
           
           if( nList.getLength() > 0 ){
