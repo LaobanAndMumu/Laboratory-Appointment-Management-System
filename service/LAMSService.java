@@ -5,6 +5,15 @@ import business.*;
 import javax.xml.stream.*;
 import javax.jws.*;
 
+/**
+* This class provides a web service
+* in SOAP(XML based communication)
+* for a appointment specialist to 
+* manage appointments
+*
+* @author Yuching Sun 
+*/
+
 @WebService(serviceName="LAMSAppointmentService")
 public class LAMSService{
    
