@@ -14,7 +14,12 @@ import java.util.regex.*;
 import java.text.ParseException;
 import java.time.LocalTime;
 
-
+/**
+* This class is the business layer
+* which handles the requirements of 
+* managing appointments
+* @author Yuching Sun 
+*/
 public class BusinessLayer{
    
    public static DBSingleton dbSingleton = DBSingleton.getInstance() ;
