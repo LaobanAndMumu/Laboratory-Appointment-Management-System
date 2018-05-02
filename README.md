@@ -5,9 +5,9 @@ _Author:Yuching Sun_
 This application is a Java application, which allows the appointment specialist to maintain clinic appointments. 
 
 ## Implementation
--Service layer provides the seven functions to maintain appointments
+-Service layer provides seven operations for appointment specialists to maintain appointments
 
--Business layer handles and validates users' input, such as date or id of patients
+-Business layer handles and validates users' input, such as date conflicts or valid users' ids
 
 ## Functionalities
 It provides seven functionalities
@@ -24,4 +24,6 @@ It provides seven functionalities
 
 -get a physician
 
+## Testing 
+Use SoapUI to test request and response 
 
