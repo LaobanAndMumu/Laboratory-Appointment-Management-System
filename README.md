@@ -2,7 +2,7 @@
 _Author:Yuching Sun_
 
 ## Introduction
-This application is a Java application, which allows the appointment specialist to maintain clinic appointments. 
+This application is a Java application, which allows the appointment specialist to maintain clinic appointments with SOAP. 
 
 ## Implementation
 -Service layer provides seven operations for appointment specialists to maintain appointments
